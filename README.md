@@ -2,5 +2,5 @@
 *single device chess game*
 
 
-###chess pieces source
+### chess pieces source:
 https://www.freevector.com/chess-graphics-set
