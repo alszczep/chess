@@ -1,0 +1,22 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "description": "*single device chess game*",
+  "main": "\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001bapp",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alszczep/chess.git"
+  },
+  "keywords": [
+    "chess"
+  ],
+  "author": "Aleksander Szczepura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alszczep/chess/issues"
+  },
+  "homepage": "https://github.com/alszczep/chess#readme"
+}
