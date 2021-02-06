@@ -32,7 +32,6 @@
   margin: 10px;
 }
 #howmodal h2 {
-  /* to be fixed */
   text-align: center;
   position: relative;
   left: 20%;
@@ -56,15 +55,4 @@
     top: 37%;
     left: 15%;
   }
-}
-/* if needed */
-html {
-  height: 100%;
-}
-html body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-y: hidden;
-  background-color: #00000d;
 }

@@ -2,13 +2,20 @@
     <html>
         <head>
             <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
             <title>Chess</title>
             <link rel="stylesheet" href="styles/style.css" />
-            <script src="src/app.js"></script>
         </head>
         <body>
-            Chess
-			<!-- TEST --><img src="img/pieces/large/black/king.png" />
-			<img src="img/pieces/large/white/queen.png" style="background-color: black;"/>
+            <input type="button" id="startbutton" value="Start" />
+            <input type="button" id="howbutton" value="How To Play" />
+            <div id="howmodal">
+                <h2>How to play</h2>
+                <input type="button" id="closehow" /> <!-- to be replaced with an image -->
+                <p>instructions</p>
+            </div>
+
+            <!-- scripts -->
+            <script src="src/app.js"></script>
         </body>
     </html>
