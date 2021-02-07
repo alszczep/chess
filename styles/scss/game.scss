@@ -1,12 +1,71 @@
-#board{
+$blackSquareColor: #4b0c0c;
+$whiteSquareColor: #d1cf88;
 
-}
-
-/* if needed */
 .vertical{
-
+    width: 100%;
 }
-
 .horizontal{
-
+    height: 100%;
 }
+#board{
+    display: inline-block;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    tr{
+        display: block;
+    }
+    .notationRow{
+        width: 100%;
+        height: (100%/18);
+    }
+    .boardRow{
+        width: 100%;
+        height: (100%/9); 
+    }
+    .boardRow, .notationRow{
+        margin: 0;
+        padding: 0;
+    }
+    .blackSquare, .whiteSquare, .topNotationBox, .leftNotationBox, .cornerNotationBox{
+        float: left;
+        box-sizing: border-box;
+    }
+    .blackSquare, .whiteSquare{
+        width: (100%/9);
+        height: 100%;
+    }
+    .blackSquare{
+        background-color: $blackSquareColor;
+    }
+    .whiteSquare{
+        background-color: $whiteSquareColor;
+    }
+
+    .topNotationBox, .leftNotationBox, .cornerNotationBox{
+        border: 2px solid black;
+        background-color: $blackSquareColor;
+        text-align: center;
+        display: flex;
+        flex-direction: column;     
+        justify-content: center;
+    }
+    .topNotationBox{
+        width: (100%/9);
+        height: 100%; 
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+    .leftNotationBox{
+        width: (100%/18);
+        height: 100%;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+    }
+    .cornerNotationBox{
+        width: (100%/18);
+        height: 100%;
+        border: 1px solid black;
+    }
+}
+
+
