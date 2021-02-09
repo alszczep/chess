@@ -1,11 +1,13 @@
 import {letters} from './constants.js'
 import {createSettingsButton} from './settings.js';
+import {createSquareListener} from './game.js'
 
 export const createBoard = (boardElement) => {
-    let board = new Array(8).fill(new Array(8));
+    let board = [];
     let colorWhite = true;
     let squareChecked = false;
-    board.forEach((row, indexRow) => {      // creating a board, assigning elements to board array
+    for(let indexRow = 0; indexRow < 8; indexRow++){      // creating a board, assigning elements to board array
+        let boardRow = [];
         if(indexRow == 0){
             boardElement.appendChild(createNotationRow());
         }
@@ -23,26 +25,30 @@ export const createBoard = (boardElement) => {
             }else{
                 squareClass = 'blackSquare';
                 colorWhite = true;
-            }
-            board[indexRow][indexColumn] = createSquare(squareClass, 8-indexRow, indexColumn+1);
-            tableRow.appendChild(board[indexRow][indexColumn].element);
+            } 
+            boardRow.push(createSquare(squareClass, 8-indexRow, indexColumn+1));     
+            tableRow.appendChild(boardRow[indexColumn].element);
         }
+        board.push(boardRow);
         tableRow.appendChild(createLeftNotationBox(8-indexRow));
         tableRow.classList.add('boardRow');
         boardElement.appendChild(tableRow);
         if(indexRow == 7){
             boardElement.appendChild(createNotationRow());
         }
-    });
+    }
     createSettingsButton(boardElement);
     return board;
 };
+
+//functions for creating board elements
 const createSquare = (squareClass, row, column) => {
     let square = document.createElement('td');
     square.classList.add(squareClass);
     square.dataset.row = row;
     square.dataset.column = column;
-    createListener(square);
+    square.id = `${row}${column}`
+    createSquareListener(square);
     return {element: square, row: row, column: column, piece: null};
 };
 const createLeftNotationBox = (number) => {
@@ -69,13 +75,4 @@ const createNotationRow = () => {
     cornerBox.classList.add('cornerNotationBox');
     tableRow.appendChild(cornerBox);
     return tableRow;
-};
-const createListener = (elem) => { 
-    elem.addEventListener('click', () => {
-        console.log(elem);
-        
-        // using event.target?
-        // if a chess piece is standing on this square, show it's moves
-        // if another square has been already clicked (squareChecked), move chess piece to this square if a move is legal
-    });
 };

@@ -1,5 +1,10 @@
 $blackSquareColor: #4b0c0c;
+$blackSquareColorHover: #3d0707;
 $whiteSquareColor: #d1cf88;
+$whiteSquareColorHover: #cac880;
+$highlightedColor: #8c8cff5d;
+$highlightedColorHover: #4b4bfd5d;
+$selectedSquareColor: #4040ff;
 
 .vertical{
     width: 100%;
@@ -43,9 +48,15 @@ $whiteSquareColor: #d1cf88;
     .blackSquare{
         background-color: $blackSquareColor;
     }
+    .blackSquare:hover{
+        background-color: $blackSquareColorHover;
+    }
     .whiteSquare{
         background-color: $whiteSquareColor;
     }
+    .whiteSquare:hover{
+        background-color: $whiteSquareColorHover;
+    }   
 
     .topNotationBox, .leftNotationBox, .cornerNotationBox{
         border: 2px solid black;
@@ -74,4 +85,13 @@ $whiteSquareColor: #d1cf88;
     }
 }
 
+.highlighted{
+    background-color: $highlightedColor !important;
+}
+.highlighted:hover{
+    background-color: $highlightedColorHover !important;
+}
+.selectedSquare{
+    border: 3px solid $selectedSquareColor;
+}
 

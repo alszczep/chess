@@ -120,8 +120,14 @@
 #board .blackSquare {
   background-color: #4b0c0c;
 }
+#board .blackSquare:hover {
+  background-color: #3d0707;
+}
 #board .whiteSquare {
   background-color: #d1cf88;
+}
+#board .whiteSquare:hover {
+  background-color: #cac880;
 }
 #board .topNotationBox, #board .leftNotationBox, #board .cornerNotationBox {
   border: 2px solid black;
@@ -147,6 +153,18 @@
   width: 5.5555555556%;
   height: 100%;
   border: 1px solid black;
+}
+
+.highlighted {
+  background-color: #8c8cff5d !important;
+}
+
+.highlighted:hover {
+  background-color: #4b4bfd5d !important;
+}
+
+.selectedSquare {
+  border: 3px solid #4040ff;
 }
 
 html {
