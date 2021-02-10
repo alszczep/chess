@@ -1,6 +1,6 @@
 import {createBoard} from './board.js';
 import {createPieces} from './pieces.js';
-import {findPiece, calculateMoves} from './moves.js';
+import {findPiece, calculateMoves, highlightMoves, unhighlightMoves} from './moves.js';
 
 
 let board;
@@ -9,6 +9,7 @@ let pieces;
 let moveColor = 'white';
 let squareChecked = false;
 let currentSquare;
+let moves;
 
 export const initGame = () => { 
     document.body.style.display = 'flex';
@@ -42,26 +43,57 @@ const resizeBoard = () => {
 
 export const createSquareListener = (element) => { // 
     element.addEventListener('click', (event) => {
-        let piece = findPiece(event.target.id, pieces);
-        if(event.target.localName == 'img' && (element == currentSquare || !currentSquare)){
+        let piece;
+        if(squareChecked){
+            piece = findPiece(currentSquare.firstElementChild.id, pieces);
+        }
+        else if(event.target.localName == 'img'){ 
+            piece = findPiece(event.target.id, pieces);
+        }
+        if(event.target.localName == 'img' && (element == currentSquare || !currentSquare)){    // unselecting a chess piece
             if(squareChecked){
-                element.classList.remove('selectedSquare');
-                element.classList.remove('highlighted');
-                squareChecked = false;
-                currentSquare = undefined;
-            }else{
+                squareUncheck(element);
+            }else{  // selecting a chess piece
                 if(piece.color == moveColor){
                     element.classList.add('selectedSquare');
                     element.classList.add('highlighted');
                     squareChecked = true;
                     currentSquare = element;
-                    calculateMoves(piece, board);
+                    moves = calculateMoves(piece, board);
+                    highlightMoves(moves, board);
                 } 
             }   
+        }else{  // moving selected chess piece
+            if(squareChecked && moves && element.classList.contains('highlighted')){
+                board[piece.row][piece.column].piece = null;
+                piece.row = 8-element.dataset.row;
+                piece.column = element.dataset.column-1;
+                if(board[piece.row][piece.column].piece != null){
+                    board[piece.row][piece.column].element.removeChild(board[piece.row][piece.column].piece.element);
+                    board[piece.row][piece.column].piece = null;
+                }
+                board[piece.row][piece.column].piece = piece;
+                currentSquare.removeChild(currentSquare.firstElementChild);
+                element.appendChild(piece.element);
+                if(!piece.moved){
+                    piece.moved = true;
+                }
+                squareUncheck(currentSquare);
+                if(moveColor == 'white'){
+                    moveColor = 'black';
+                }else{
+                    moveColor = 'white';
+                }
+            }
         }
     });
 };
 
-const highlightMoves = (action) => {
-
+const squareUncheck = (element) => {
+    element.classList.remove('selectedSquare');
+    element.classList.remove('highlighted');
+    squareChecked = false;
+    currentSquare = undefined;
+    unhighlightMoves(moves, board);
+    moves = [];
 };
