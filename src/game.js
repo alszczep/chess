@@ -10,6 +10,7 @@ let moveColor = 'white';
 let squareChecked = false;
 let currentSquare;
 let moves;
+let moveHistory = [];
 
 export const initGame = () => { 
     document.body.style.display = 'flex';
@@ -66,6 +67,25 @@ export const createSquareListener = (element) => { //
         }else{  // moving selected chess piece
             if(squareChecked && moves && element.classList.contains('highlighted')){
                 board[piece.row][piece.column].piece = null;
+                moveHistory.push({from: {row: piece.row,column: piece.column}, to: {row: 8-element.dataset.row, column: element.dataset.column-1}});
+                if(moveHistory.length > 1){
+                    let row = moveHistory[moveHistory.length-2].from.row;
+                    let column = moveHistory[moveHistory.length-2].from.column;
+                    board[row][column].element.classList.remove('lastMove');
+                    row = moveHistory[moveHistory.length-2].to.row;
+                    column = moveHistory[moveHistory.length-2].to.column;
+                    board[row][column].element.classList.remove('lastMove');
+                }
+                if(moveHistory.length > 0){
+                    console.log('add');
+                    let row = moveHistory[moveHistory.length-1].from.row;
+                    let column = moveHistory[moveHistory.length-1].from.column;
+                    console.log(row, column);
+                    board[row][column].element.classList.add('lastMove');
+                    row = moveHistory[moveHistory.length-1].to.row;
+                    column = moveHistory[moveHistory.length-1].to.column;
+                    board[row][column].element.classList.add('lastMove');
+                }
                 piece.row = 8-element.dataset.row;
                 piece.column = element.dataset.column-1;
                 if(board[piece.row][piece.column].piece != null){

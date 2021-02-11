@@ -75,6 +75,10 @@
     left: 15%;
   }
 }
+/*          ANIMATIONS (OPTIONAL)
+- piece floats out of the screen after being captured?
+- animated movement (maybe move to new square, create an image there and then delete old image)
+*/
 .vertical {
   width: 100%;
 }
@@ -165,6 +169,10 @@
 
 .selectedSquare {
   border: 3px solid #4040ff;
+}
+
+.lastMove {
+  background-color: #249b24 !important;
 }
 
 html {

@@ -5,6 +5,12 @@ $whiteSquareColorHover: #cac880;
 $highlightedColor: #8c8cff5d;
 $highlightedColorHover: #4b4bfd5d;
 $selectedSquareColor: #4040ff;
+$lastMoveColor: #249b24;
+
+/*          ANIMATIONS (OPTIONAL)
+- piece floats out of the screen after being captured?
+- animated movement (maybe move to new square, create an image there and then delete old image)
+*/
 
 .vertical{
     width: 100%;
@@ -94,4 +100,6 @@ $selectedSquareColor: #4040ff;
 .selectedSquare{
     border: 3px solid $selectedSquareColor;
 }
-
+.lastMove{
+    background-color: $lastMoveColor !important;
+}
