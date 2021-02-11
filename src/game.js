@@ -51,11 +51,11 @@ export const createSquareListener = (element) => { //
         else if(event.target.localName == 'img'){ 
             piece = findPiece(event.target.id, pieces);
         }
-        if(event.target.localName == 'img' && (element == currentSquare || !currentSquare)){    // unselecting a chess piece
-            if(squareChecked){
+        if(event.target.localName == 'img' && (element == currentSquare || !currentSquare)){    
+            if(squareChecked){  // unselecting a chess piece
                 squareUncheck(element);
-            }else{  // selecting a chess piece
-                if(piece.color == moveColor){
+            }else{  
+                if(piece.color == moveColor){   // selecting a chess piece
                     element.classList.add('selectedSquare');
                     element.classList.add('highlighted');
                     squareChecked = true;
@@ -64,8 +64,8 @@ export const createSquareListener = (element) => { //
                     highlightMoves(moves, board);
                 } 
             }   
-        }else{  // moving selected chess piece
-            if(squareChecked && moves && element.classList.contains('highlighted')){
+        }else{  
+            if(squareChecked && moves && element.classList.contains('highlighted')){    // moving selected chess piece
                 board[piece.row][piece.column].piece = null;
                 moveHistory.push({from: {row: piece.row,column: piece.column}, to: {row: 8-element.dataset.row, column: element.dataset.column-1}});
                 if(moveHistory.length > 1){
@@ -77,10 +77,8 @@ export const createSquareListener = (element) => { //
                     board[row][column].element.classList.remove('lastMove');
                 }
                 if(moveHistory.length > 0){
-                    console.log('add');
                     let row = moveHistory[moveHistory.length-1].from.row;
                     let column = moveHistory[moveHistory.length-1].from.column;
-                    console.log(row, column);
                     board[row][column].element.classList.add('lastMove');
                     row = moveHistory[moveHistory.length-1].to.row;
                     column = moveHistory[moveHistory.length-1].to.column;

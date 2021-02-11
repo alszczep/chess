@@ -98,8 +98,8 @@ $lastMoveColor: #249b24;
     background-color: $highlightedColorHover !important;
 }
 .selectedSquare{
-    border: 3px solid $selectedSquareColor;
+    border: 4px solid $selectedSquareColor;
 }
 .lastMove{
-    background-color: $lastMoveColor !important;
+    border: 4px solid $lastMoveColor;
 }

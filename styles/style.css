@@ -168,11 +168,11 @@
 }
 
 .selectedSquare {
-  border: 3px solid #4040ff;
+  border: 4px solid #4040ff;
 }
 
 .lastMove {
-  background-color: #249b24 !important;
+  border: 4px solid #249b24;
 }
 
 html {

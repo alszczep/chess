@@ -33,9 +33,14 @@ export const unhighlightMoves = (moves, board) => {
         });
     }
 };
-//                                                                              REMEMBER ABOUT REACHING THE EDGE OF THE BOARD
+export const ifCheck = (king, board) => {
+    
+};
+
 const calculateRook = (piece, board) => {
     let moves = [];
+    moves = calculateStraightMoves(piece, moves, board);
+    return moves;
 };
 const calculateKnight = (piece, board) => {
     
@@ -56,22 +61,82 @@ const calculatePawn = (piece, board) => {
     let column = piece.column;
     if(board[row+flag][column].piece == null){
         moves.push({row: row+flag, column: column});
-    }if(board[row+flag][column+1].piece != null && board[row+flag][column+1].piece.color != piece.color){
-        moves.push({row: row+flag, column: column+1});
-    }if(board[row+flag][column-1].piece != null && board[row+flag][column-1].piece.color != piece.color){
-        moves.push({row: row+flag, column: column-1});
-    }if(!piece.moved){
-        if(board[row+flag*2][column].piece == null){
-            moves.push({row: row+flag*2, column: column});
+        if(!piece.moved && board[row+flag*2][column].piece == null){
+                moves.push({row: row+flag*2, column: column});
         }
+    }if(column < 7 && board[row+flag][column+1].piece != null && board[row+flag][column+1].piece.color != piece.color){
+        moves.push({row: row+flag, column: column+1});
+    }if(column > 0 && board[row+flag][column-1].piece != null && board[row+flag][column-1].piece.color != piece.color){
+        moves.push({row: row+flag, column: column-1});
     }
     return moves;
 };
-const calculateDiagonalMoves = () => {
-
+const calculateDiagonalMoves = (piece, moves, board) => {
+    
 };
-const calculateStraightMoves = () => {
 
+const calculateStraightMoves = (piece, moves, board) => {
+    let tempRow = piece.row-1;
+    let tempColumn = piece.column;
+    while(tempRow >= 0) {       // north
+        if(board[tempRow][tempColumn].piece != null){
+            if(board[tempRow][tempColumn].piece.color == piece.color){
+                break;
+            }else{
+                moves.push({row: tempRow, column: tempColumn});
+                break;
+            }
+        }else{
+            moves.push({row: tempRow, column: tempColumn});
+        }
+        tempRow--;
+    }   
+    tempRow = piece.row;
+    tempColumn = piece.column+1;
+    while(tempColumn <= 7) {       // east
+        if(board[tempRow][tempColumn].piece != null){
+            if(board[tempRow][tempColumn].piece.color == piece.color){
+                break;
+            }else{
+                moves.push({row: tempRow, column: tempColumn});
+                break;
+            }
+        }else{
+            moves.push({row: tempRow, column: tempColumn});
+        }
+        tempColumn++;
+    }   
+    tempRow = piece.row+1;
+    tempColumn = piece.column;
+    while(tempRow <= 7) {       // south
+        if(board[tempRow][tempColumn].piece != null){
+            if(board[tempRow][tempColumn].piece.color == piece.color){
+                break;
+            }else{
+                moves.push({row: tempRow, column: tempColumn});
+                break;
+            }
+        }else{
+            moves.push({row: tempRow, column: tempColumn});
+        }
+        tempRow++;
+    }   
+    tempRow = piece.row;
+    tempColumn = piece.column-1;
+    while(tempColumn >= 0) {       // west
+        if(board[tempRow][tempColumn].piece != null){
+            if(board[tempRow][tempColumn].piece.color == piece.color){
+                break;
+            }else{
+                moves.push({row: tempRow, column: tempColumn});
+                break;
+            }
+        }else{
+            moves.push({row: tempRow, column: tempColumn});
+        }
+        tempColumn--;
+    }   
+    return moves;
 };
 
 const calculateFlag = (color) => {
