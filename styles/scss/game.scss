@@ -6,6 +6,7 @@ $highlightedColor: #8c8cff5d;
 $highlightedColorHover: #4b4bfd5d;
 $selectedSquareColor: #4040ff;
 $lastMoveColor: #249b24;
+$checkedKingColor: #ff0000;
 
 /*          ANIMATIONS (OPTIONAL)
 - piece floats out of the screen after being captured?
@@ -102,4 +103,7 @@ $lastMoveColor: #249b24;
 }
 .lastMove{
     border: 4px solid $lastMoveColor;
+}
+.checkedKing{
+    border: 4px solid $checkedKingColor !important;
 }

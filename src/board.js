@@ -1,6 +1,6 @@
-import {letters} from './constants.js'
 import {createSettingsButton} from './settings.js';
 import {createSquareListener} from './game.js'
+const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
 export const createBoard = (boardElement) => {
     let board = [];

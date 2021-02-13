@@ -175,6 +175,10 @@
   border: 4px solid #249b24;
 }
 
+.checkedKing {
+  border: 4px solid #ff0000 !important;
+}
+
 html {
   height: 100%;
 }
