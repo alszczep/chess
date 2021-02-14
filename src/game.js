@@ -12,6 +12,8 @@ let squareChecked = false;
 let currentSquare;
 let moves;
 let moveHistory = [];
+let checkMateElement;
+let checkMateTextElement;
 
 export const initGame = () => { 
     document.body.style.display = 'flex';
@@ -52,6 +54,7 @@ export const createSquareListener = (element) => {
 
 const onSquareClick = (element) => {
     return (event) => {
+        if(event.target.localName == 'div') return ;
         let piece;
         if(squareChecked){
             piece = findPiece(currentSquare.firstElementChild.id, pieces);
@@ -65,9 +68,7 @@ const onSquareClick = (element) => {
                 squareUncheck(element);
             }else{  
                 // selecting a chess piece
-                if(piece.color == moveColor){   
-                    board[kings.white.row][kings.white.column].piece = kings.white;   // SQUARE.PIECE IS EMPTY 
-                    board[kings.black.row][kings.black.column].piece = kings.black;   // BUG TO BE FOUND
+                if(piece.color == moveColor){  
                     element.classList.add('selectedSquare');
                     element.classList.add('highlighted');
                     squareChecked = true;
@@ -95,7 +96,11 @@ const onSquareClick = (element) => {
                 if(moveHistory.length > 0) addLastMove(moveHistory, board);
                 piece.row = 8-element.dataset.row;
                 piece.column = element.dataset.column-1;
-                if(board[piece.row][piece.column].piece != null) board[piece.row][piece.column].element.removeChild(board[piece.row][piece.column].piece.element);
+                if(board[piece.row][piece.column].piece != null) {
+                    let oldPieceIndex = pieces.findIndex(item => item==board[piece.row][piece.column].piece);
+                    pieces[oldPieceIndex] = null;
+                    board[piece.row][piece.column].element.removeChild(board[piece.row][piece.column].piece.element);
+                }
                 board[piece.row][piece.column].piece = piece;
                 currentSquare.removeChild(currentSquare.firstElementChild);
                 element.appendChild(piece.element);
@@ -114,7 +119,7 @@ const onSquareClick = (element) => {
                 let king;
                 if(moveColor == 'white') king = kings.white;
                 else king = kings.black;
-                //if(king.checked && checkIfCheckMate(king)) checkMateActions();
+                if(king.checked && checkIfCheckMate(king)) checkMateActions();
             }
         }
     }
@@ -123,22 +128,26 @@ const onSquareClick = (element) => {
 const checkIfCheckMate = (king) => {
     let moves = [];
     let ifMate = true;
-        pieces.forEach((piece) => {
-            if(piece.color == moveColor){
-                moves = calculateMoves(piece, board, king);
-                console.log(moves);
-                if(moves.length > 0) ifMate = false;
-            }
-        });
+    pieces.forEach((piece) => {
+        if(piece && piece.color == moveColor){
+            moves = calculateMoves(piece, board, king);
+            if(moves.length > 0) ifMate = false;
+        }
+    });
     return ifMate;
 };
 const checkMateActions = () => {
-    /*board.forEach((row) => {
-        row.forEach((square) => {
-            square.element.removeEventListener('click', onSquareClick(square));
-            // create check mate text absolute
-        });
-    });*/
+    checkMateElement = document.createElement('div');
+    checkMateElement.classList.add('checkMateBackground');
+    checkMateTextElement = document.createElement('p');
+    checkMateTextElement.classList.add('checkMateText');
+    checkMateTextElement.textContent = 'Check Mate';
+    checkMateTextElement.style.margin = '0px';
+    console.log(checkMateTextElement.clientWidth/2);    // to fix
+    checkMateTextElement.style.marginLeft = `-${checkMateTextElement.clientWidth/2}px`;
+    checkMateTextElement.style.marginTop = `-${checkMateTextElement.clientHeight/2}px`;
+    checkMateElement.appendChild(checkMateTextElement);
+    document.body.appendChild(checkMateElement);
     console.log('check mate');
 };
 

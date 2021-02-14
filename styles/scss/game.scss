@@ -7,6 +7,7 @@ $highlightedColorHover: #4b4bfd5d;
 $selectedSquareColor: #4040ff;
 $lastMoveColor: #249b24;
 $checkedKingColor: #ff0000;
+$checkMateTextColor: #44444467;
 
 /*          ANIMATIONS (OPTIONAL)
 - piece floats out of the screen after being captured?
@@ -106,4 +107,20 @@ $checkedKingColor: #ff0000;
 }
 .checkedKing{
     border: 4px solid $checkedKingColor !important;
+}
+.checkMateBackground{
+    background-color: $checkMateTextColor;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 5;
+}
+.checkMateText{
+    position: absolute;
+    z-index: 6;
+    color: red;
+    font-weight: bold;
+    font-size: 300%;
+    left: 50%;
+    top: 50%;
 }

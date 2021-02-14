@@ -1,5 +1,10 @@
 export const findPiece = (pieceId, pieces) => {
-    return pieces.find(item => item.id==pieceId);
+    return pieces.find(item => {
+        if(item)
+            return item.id==pieceId
+        else
+            return false;
+    });
 };
 
 export const calculateMoves = (piece, board, king) => {
@@ -34,8 +39,8 @@ export const unhighlightMoves = (moves, board) => {
     }
 };
 export const ifCheck = (king, board, row, column) => { // checks if king is already checked
-    let tempPiece = {...king};
-    board[king.row][king.column].piece = null;
+    //let tempPiece = {...king};
+    //board[king.row][king.column].piece = null;
     let moves = calculateDiagonalMoves({row: row, column: column, color: king.color}, [], board);
     if(moves.filter((item) => {return item.piece != null && (item.piece.type == 'bishop' || item.piece.type == 'queen');}).length > 0){
         return true;
@@ -62,7 +67,7 @@ export const ifCheck = (king, board, row, column) => { // checks if king is alre
             }
         }
     }
-    board[tempPiece.row][tempPiece.column].piece = tempPiece;
+    //board[tempPiece.row][tempPiece.column].piece = {...tempPiece};
     return false;
 };
 const moveCheck = (moves, king, piece, board) => { // checks if move doesn't leave a king checked
@@ -117,6 +122,7 @@ const calculateQueen = (piece, board, king) => {
 }; 
 const calculateKing = (piece, board) => {
     let moves = [];
+    board[piece.row][piece.column].piece = null;
     for(let row = piece.row - 1; row <= piece.row + 1; row++){
         for(let column = piece.column - 1; column <= piece.column + 1; column++){
             if(row >= 0 && column >= 0 && row <= 7 && column <= 7 && (column != piece.column || row != piece.row)){
@@ -126,6 +132,7 @@ const calculateKing = (piece, board) => {
             }
         }
     }
+    board[piece.row][piece.column].piece = piece;
     return moves;
 };
 const calculatePawn = (piece, board, king) => {
@@ -241,7 +248,7 @@ const calculateStraightMoves = (piece, moves, board) => {
     row = piece.row + 1;
     column = piece.column;
     loop = true;
-    while(row <= 7 && loop) {       
+    while(row <= 7 && loop) {
         [moves, loop] = calculateSingleLine(piece.color, row, column, moves, board, loop);
         row++;
     }   

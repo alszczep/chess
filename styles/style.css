@@ -179,6 +179,24 @@
   border: 4px solid #ff0000 !important;
 }
 
+.checkMateBackground {
+  background-color: #44444467;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 5;
+}
+
+.checkMateText {
+  position: absolute;
+  z-index: 6;
+  color: red;
+  font-weight: bold;
+  font-size: 300%;
+  left: 50%;
+  top: 50%;
+}
+
 html {
   height: 100%;
 }
