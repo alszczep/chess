@@ -1,18 +1,14 @@
 $blackSquareColor: #4b0c0c;
 $blackSquareColorHover: #3d0707;
 $whiteSquareColor: #d1cf88;
-$whiteSquareColorHover: #cac880;
-$highlightedColor: #8c8cff5d;
-$highlightedColorHover: #4b4bfd5d;
+$whiteSquareColorHover: #cac774;
+$highlightedColor: #6464ff6e;
+$highlightedColorHover: #4b4bfd8f;
 $selectedSquareColor: #4040ff;
 $lastMoveColor: #249b24;
 $checkedKingColor: #ff0000;
-$checkMateTextColor: #44444467;
-
-/*          ANIMATIONS (OPTIONAL)
-- piece floats out of the screen after being captured?
-- animated movement (maybe move to new square, create an image there and then delete old image)
-*/
+$checkMateBgColor: #2c2c2c80;
+$settingsButtonHover: #0000001a;
 
 .vertical{
     width: 100%;
@@ -38,7 +34,7 @@ $checkMateTextColor: #44444467;
         .pieceImg{
             width: 100%;
             height: 100%;
-            z-index: 3;
+            z-index: 4;
         }
     }
     .boardRow, .notationRow{
@@ -48,6 +44,8 @@ $checkMateTextColor: #44444467;
     .blackSquare, .whiteSquare, .topNotationBox, .leftNotationBox, .cornerNotationBox{
         float: left;
         box-sizing: border-box;
+        z-index: 2;
+        background-repeat:no-repeat; 
     }
     .blackSquare, .whiteSquare{
         width: (100%/9);
@@ -64,8 +62,22 @@ $checkMateTextColor: #44444467;
     }
     .whiteSquare:hover{
         background-color: $whiteSquareColorHover;
-    }   
-
+    }
+    .highlighted{
+        background-color: $highlightedColor !important;
+    }
+    .highlighted:hover{
+        background-color: $highlightedColorHover !important;
+    }
+    .selectedSquare{
+        border: 4px solid $selectedSquareColor;
+    }
+    .lastMove{
+        border: 4px solid $lastMoveColor;
+    }
+    .checkedKing{
+        border: 4px solid $checkedKingColor !important;
+    }
     .topNotationBox, .leftNotationBox, .cornerNotationBox{
         border: 2px solid black;
         background-color: $blackSquareColor;
@@ -90,26 +102,19 @@ $checkMateTextColor: #44444467;
         width: (100%/18);
         height: 100%;
         border: 1px solid black;
+        .settingsButton{
+            height: 100%;
+            width: 100%;
+        }
+        .settingsButton:hover{
+            background-color: $settingsButtonHover;
+        }
     }
 }
 
-.highlighted{
-    background-color: $highlightedColor !important;
-}
-.highlighted:hover{
-    background-color: $highlightedColorHover !important;
-}
-.selectedSquare{
-    border: 4px solid $selectedSquareColor;
-}
-.lastMove{
-    border: 4px solid $lastMoveColor;
-}
-.checkedKing{
-    border: 4px solid $checkedKingColor !important;
-}
+
 .checkMateBackground{
-    background-color: $checkMateTextColor;
+    background-color: $checkMateBgColor;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -123,4 +128,5 @@ $checkMateTextColor: #44444467;
     font-size: 300%;
     left: 50%;
     top: 50%;
+    transform: translate(-50%, -50%);
 }

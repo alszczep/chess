@@ -12,9 +12,9 @@ $bgColors: #ffffff;
     left: 30%;
     z-index: 1;
 }
-#howmodal{
+.modal{
     background-color: $bgColors;
-    position: relative;
+    position: absolute;
     text-align: center;
     box-sizing: border-box;
     display: none;
@@ -25,7 +25,23 @@ $bgColors: #ffffff;
     height: 70%;
     left: 15%;
     top: 15%;
-    h2, input{
+    p.header{ 
+        text-align: center;
+        position: relative;
+        width: 100%;
+        font-weight: bold;
+        font-size: 280%;
+        margin: 10px 0;
+    }
+    .closeButton{
+        background-image: url('/img/close_button.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        border: 2px solid black;
+        border-radius: 6px;
+        background-color: $bgColors;
+    }
+    p.header, input{
         display: inline;
     }
     input{
@@ -36,26 +52,17 @@ $bgColors: #ffffff;
         height: 40px;
         margin: 10px;
     }
-    p.header{ 
-        text-align: center;
-        position: relative;
-        width: 100%;
-        font-weight: bold;
-        font-size: 5vw;
-        margin: 10px 0;
+    p.text, p.tableCaption{
+        font-size: 240%;
     }
-    p.text{
-        font-size: 2vw;
-    }
-    #closehow{
-        background-image: url('/img/close_button.png');
-        background-repeat: no-repeat;
-        background-size: cover;
-        border: 2px solid black;
-        border-radius: 6px;
-        background-color: $bgColors;
+    ul{
+        text-align: left;
+        li{
+            font-size: 210%;
+        }
     }
 }
+
 
 @media only screen and (max-width: 900px){
     #startbutton, #howbutton{
@@ -65,8 +72,24 @@ $bgColors: #ffffff;
         top: 35%;
         left: 25%;
     }
-    #howmodal{
-        
+    .modal{
+        p.header{ 
+            font-size: 180%;
+            margin: 8px 0;
+        }
+        input{
+            width: 35px;
+            height: 35px;
+            margin: 8px;
+        }
+        p.text, p.tableCaption{
+            font-size: 150%;
+        }
+        ul{
+            li{
+                font-size: 120%;
+            }
+        }
     }
 }
 
@@ -78,7 +101,51 @@ $bgColors: #ffffff;
         top: 37%;
         left: 15%;
     }
-    #howmodal{
-    
+    .modal{
+        p.header{ 
+            font-size: 140%;
+            margin: 6px 0;
+        }
+        input{
+            width: 30px;
+            height: 30px;
+            margin: 6px;
+        }
+        p.text, p.tableCaption{
+            font-size: 120%;
+        }
+        ul{
+            li{
+                font-size: 100%;
+            }
+        }
+    }
+}
+@media only screen and (max-height: 400px){
+    #startbutton, #howbutton{
+        width: 70%;
+        height: 11%;
+        font-size: 3vw;
+        top: 37%;
+        left: 15%;
+    }
+    .modal{
+        p.header{ 
+            font-size: 95%;
+            margin: 12px 0;
+        }
+        input{
+            width: 25px;
+            height: 25px;
+            margin: 4px;
+        }
+        p.text, p.tableCaption{
+            font-size: 90%;
+        }
+        ul{
+            li{
+                font-size: 80%;
+            }
+        }
     }
 }

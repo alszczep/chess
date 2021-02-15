@@ -12,9 +12,9 @@
   z-index: 1;
 }
 
-#howmodal {
+.modal {
   background-color: #ffffff;
-  position: relative;
+  position: absolute;
   text-align: center;
   box-sizing: border-box;
   display: none;
@@ -26,10 +26,26 @@
   left: 15%;
   top: 15%;
 }
-#howmodal h2, #howmodal input {
+.modal p.header {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  font-weight: bold;
+  font-size: 280%;
+  margin: 10px 0;
+}
+.modal .closeButton {
+  background-image: url("/img/close_button.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 2px solid black;
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+.modal p.header, .modal input {
   display: inline;
 }
-#howmodal input {
+.modal input {
   position: absolute;
   right: 0;
   top: 0;
@@ -37,24 +53,14 @@
   height: 40px;
   margin: 10px;
 }
-#howmodal p.header {
-  text-align: center;
-  position: relative;
-  width: 100%;
-  font-weight: bold;
-  font-size: 5vw;
-  margin: 10px 0;
+.modal p.text, .modal p.tableCaption {
+  font-size: 240%;
 }
-#howmodal p.text {
-  font-size: 2vw;
+.modal ul {
+  text-align: left;
 }
-#howmodal #closehow {
-  background-image: url("/img/close_button.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 2px solid black;
-  border-radius: 6px;
-  background-color: #ffffff;
+.modal ul li {
+  font-size: 210%;
 }
 
 @media only screen and (max-width: 900px) {
@@ -65,6 +71,22 @@
     top: 35%;
     left: 25%;
   }
+
+  .modal p.header {
+    font-size: 180%;
+    margin: 8px 0;
+  }
+  .modal input {
+    width: 35px;
+    height: 35px;
+    margin: 8px;
+  }
+  .modal p.text, .modal p.tableCaption {
+    font-size: 150%;
+  }
+  .modal ul li {
+    font-size: 120%;
+  }
 }
 @media only screen and (max-width: 600px) {
   #startbutton, #howbutton {
@@ -74,11 +96,48 @@
     top: 37%;
     left: 15%;
   }
+
+  .modal p.header {
+    font-size: 140%;
+    margin: 6px 0;
+  }
+  .modal input {
+    width: 30px;
+    height: 30px;
+    margin: 6px;
+  }
+  .modal p.text, .modal p.tableCaption {
+    font-size: 120%;
+  }
+  .modal ul li {
+    font-size: 100%;
+  }
 }
-/*          ANIMATIONS (OPTIONAL)
-- piece floats out of the screen after being captured?
-- animated movement (maybe move to new square, create an image there and then delete old image)
-*/
+@media only screen and (max-height: 400px) {
+  #startbutton, #howbutton {
+    width: 70%;
+    height: 11%;
+    font-size: 3vw;
+    top: 37%;
+    left: 15%;
+  }
+
+  .modal p.header {
+    font-size: 95%;
+    margin: 12px 0;
+  }
+  .modal input {
+    width: 25px;
+    height: 25px;
+    margin: 4px;
+  }
+  .modal p.text, .modal p.tableCaption {
+    font-size: 90%;
+  }
+  .modal ul li {
+    font-size: 80%;
+  }
+}
 .vertical {
   width: 100%;
 }
@@ -107,7 +166,7 @@
 #board .boardRow .pieceImg {
   width: 100%;
   height: 100%;
-  z-index: 3;
+  z-index: 4;
 }
 #board .boardRow, #board .notationRow {
   margin: 0;
@@ -116,6 +175,8 @@
 #board .blackSquare, #board .whiteSquare, #board .topNotationBox, #board .leftNotationBox, #board .cornerNotationBox {
   float: left;
   box-sizing: border-box;
+  z-index: 2;
+  background-repeat: no-repeat;
 }
 #board .blackSquare, #board .whiteSquare {
   width: 11.1111111111%;
@@ -131,7 +192,22 @@
   background-color: #d1cf88;
 }
 #board .whiteSquare:hover {
-  background-color: #cac880;
+  background-color: #cac774;
+}
+#board .highlighted {
+  background-color: #6464ff6e !important;
+}
+#board .highlighted:hover {
+  background-color: #4b4bfd8f !important;
+}
+#board .selectedSquare {
+  border: 4px solid #4040ff;
+}
+#board .lastMove {
+  border: 4px solid #249b24;
+}
+#board .checkedKing {
+  border: 4px solid #ff0000 !important;
 }
 #board .topNotationBox, #board .leftNotationBox, #board .cornerNotationBox {
   border: 2px solid black;
@@ -158,29 +234,16 @@
   height: 100%;
   border: 1px solid black;
 }
-
-.highlighted {
-  background-color: #8c8cff5d !important;
+#board .cornerNotationBox .settingsButton {
+  height: 100%;
+  width: 100%;
 }
-
-.highlighted:hover {
-  background-color: #4b4bfd5d !important;
-}
-
-.selectedSquare {
-  border: 4px solid #4040ff;
-}
-
-.lastMove {
-  border: 4px solid #249b24;
-}
-
-.checkedKing {
-  border: 4px solid #ff0000 !important;
+#board .cornerNotationBox .settingsButton:hover {
+  background-color: #0000001a;
 }
 
 .checkMateBackground {
-  background-color: #44444467;
+  background-color: #2c2c2c80;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -195,6 +258,7 @@
   font-size: 300%;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 html {

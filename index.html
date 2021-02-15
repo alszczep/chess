@@ -10,12 +10,18 @@
         <body>
             <input type="button" id="startbutton" value="Start" />
             <input type="button" id="howbutton" value="How To Play" />
-            <div id="howmodal">
+            <div class="modal">
                 <p class="header">How to play</p>
-                <input type="button" id="closehow" />
-                <p class="text">instructions will be added when the game is ready</p>
+                <input type="button" class="closeButton" />
+                <p class="text">To show legal moves, click on a chess piece. To make a move click on the one of highlighted squares. 
+                <p class="tableCaption">What do diffrent borders around chess pieces mean?</p>
+                <ul>
+                    <li>Blue border shows currently selected chess piece</li>
+                    <li>Green borders shows last move</li>
+                    <li>Red border appears around checked king</li>
+                </ul> 
+                </p>
             </div>
-
             <script type="module" src="app.js"></script>
         </body>
     </html>

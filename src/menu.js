@@ -1,8 +1,8 @@
 export const initMenu = (initGame) => {
     const startButton = document.querySelector('#startbutton');
     const howButton = document.querySelector('#howbutton');
-    const howModal = document.querySelector('#howmodal');
-    const closeHow = document.querySelector('#closehow');
+    const howModal = document.querySelector('.modal');
+    const closeHow = document.querySelector('.closeButton');
     howButton.addEventListener('click', () => {
         howModal.style.display = "block";
         startButton.style.display = "none";
