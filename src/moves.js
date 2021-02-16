@@ -18,7 +18,7 @@ export const calculateMoves = (piece, board, king) => {
         case 'queen':
             return calculateQueen(piece, board, king);
         case 'king':
-            return calculateKing(piece, board);
+            return calculateKing(piece, board, king);
         case 'pawn':
             return calculatePawn(piece, board, king);
     }
@@ -120,7 +120,7 @@ const calculateQueen = (piece, board, king) => {
     moves = moveCheck(moves, king, piece, board);
     return moves;
 }; 
-const calculateKing = (piece, board) => {
+const calculateKing = (piece, board, king) => {
     let moves = [];
     board[piece.row][piece.column].piece = null;
     for(let row = piece.row - 1; row <= piece.row + 1; row++){
@@ -131,6 +131,19 @@ const calculateKing = (piece, board) => {
                 }
             }
         }
+    }
+    let row;
+    if(piece.color == 'white') row = 7;
+    else row = 0;
+    if(!king.checked && !piece.moved){
+        //short castle
+        if(board[row][piece.column+3].piece && !board[row][piece.column+3].piece.moved && !board[row][piece.column+1].piece && !board[row][piece.column+2].piece)
+            if(!ifCheck(piece, board, row, piece.column+1) && !ifCheck(piece, board, row, piece.column+2))
+                moves.push({row: row, column: piece.column+2, piece: board[row][piece.column+2].piece, castle: 'short'});
+        //long castle
+        if(board[row][piece.column-4].piece && !board[row][piece.column-4].piece.moved && !board[row][piece.column-1].piece && !board[row][piece.column-2].piece && !board[row][piece.column-3].piece)
+            if(!ifCheck(piece, board, row, piece.column-1) && !ifCheck(piece, board, row, piece.column-2) && !ifCheck(piece, board, row, piece.column-3))
+                moves.push({row: row, column: piece.column-3, piece: board[row][piece.column-3].piece, castle: 'long'});
     }
     board[piece.row][piece.column].piece = piece;
     return moves;

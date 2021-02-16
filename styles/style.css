@@ -62,6 +62,15 @@
 .modal ul li {
   font-size: 210%;
 }
+.modal ul li span.blue {
+  color: blue;
+}
+.modal ul li span.green {
+  color: green;
+}
+.modal ul li span.red {
+  color: red;
+}
 
 @media only screen and (max-width: 900px) {
   #startbutton, #howbutton {

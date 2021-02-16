@@ -102,6 +102,17 @@ const onSquareClick = (element) => {
                     board[piece.row][piece.column].element.removeChild(board[piece.row][piece.column].piece.element);
                 }
                 board[piece.row][piece.column].piece = piece;
+                // castle
+                if(piece.type == 'king'){
+                    let castle = moves.find((move) => {
+                        return move.castle;
+                    });
+                    if(castle){
+                        castle = castle.castle;
+                        if(castle == 'short') doCastle(board, piece, -1);
+                        if(castle == 'long') doCastle(board, piece, 1);
+                    }
+                }
                 currentSquare.removeChild(currentSquare.firstElementChild);
                 element.appendChild(piece.element);
                 if(!piece.moved) piece.moved = true;
@@ -123,6 +134,15 @@ const onSquareClick = (element) => {
             }
         }
     }
+};
+
+const doCastle = (board, piece, flag) => {
+    board[piece.row][piece.column + flag].piece = board[piece.row][piece.column - flag].piece;
+    board[piece.row][piece.column - flag].piece = null;
+    board[piece.row][piece.column - flag].element.removeChild(board[piece.row][piece.column + flag].piece.element);
+    board[piece.row][piece.column + flag].element.appendChild(board[piece.row][piece.column + flag].piece.element);
+    if(flag == 1) board[piece.row][piece.column + flag].piece.column = 2;
+    else board[piece.row][piece.column + flag].piece.column = 5;
 };
 
 const checkIfCheckMate = (king) => {

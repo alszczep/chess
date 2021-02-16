@@ -59,6 +59,15 @@ $bgColors: #ffffff;
         text-align: left;
         li{
             font-size: 210%;
+            span.blue{
+                color: blue;
+            }
+            span.green{
+                color: green;
+            }
+            span.red{
+                color: red;
+            }
         }
     }
 }
