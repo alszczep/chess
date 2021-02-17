@@ -14,6 +14,7 @@ let moves;
 let moveHistory = [];
 let checkMateElement;
 let checkMateTextElement;
+let enpassant = {white: [], black: []};
 
 export const initGame = () => { 
     document.body.style.display = 'flex';
@@ -77,6 +78,22 @@ const onSquareClick = (element) => {
                     if(moveColor == 'white') king = kings.white;
                     else king = kings.black; 
                     moves = calculateMoves(piece, board, king);
+                    // adding enpassant move
+                    if(piece.type == 'pawn'){
+                        if(moveColor == 'white'){
+                            if(enpassant.white.length > 0){
+                                enpassant.white.forEach((item) => {
+                                    if(item.pawn == piece)  moves.push({row: item.move.row, column: item.move.column, piece: null});
+                                });
+                            }
+                        }else{
+                            if(enpassant.black.length > 0){
+                                enpassant.black.forEach((item) => {
+                                    if(item.pawn == piece)  moves.push({row: item.move.row, column: item.move.column, piece: null});
+                                });
+                            }
+                        }
+                    }
                     highlightMoves(moves, board);
                 } 
             }   
@@ -113,12 +130,51 @@ const onSquareClick = (element) => {
                         if(castle == 'long') doCastle(board, piece, 1);
                     }
                 }
+                // en passant
+                if(piece.type == 'pawn'){
+                    let target;
+                    if(moveColor == 'white'){
+                        if(enpassant.white.length > 0)
+                            enpassant.white.forEach((item) => {
+                                if(item.pawn == piece)  {
+                                    board[item.target.row][item.target.column].element.removeChild(board[item.target.row][item.target.column].piece.element);
+                                    let oldPieceIndex = pieces.findIndex(oldPiece => oldPiece == board[item.target.row][item.target.column].piece);
+                                    pieces[oldPieceIndex] = null;
+                                    board[item.target.row][item.target.column].piece = null;
+                                }
+                            });
+                    }else{
+                        if(enpassant.black.length > 0)
+                            enpassant.black.forEach((item) => {
+                                if(item.pawn == piece)  {
+                                    board[item.target.row][item.target.column].element.removeChild(board[item.target.row][item.target.column].piece.element);
+                                    let oldPieceIndex = pieces.findIndex(oldPiece => oldPiece == board[item.target.row][item.target.column].piece);
+                                    pieces[oldPieceIndex] = null;
+                                    board[item.target.row][item.target.column].piece = null;
+                                }
+                            });
+                    }    
+                    if(piece.moved == false && (piece.row == 3 || piece.row == 4)){
+                        calculateEnPassant(piece);
+                    }
+
+                    // pawn promotion to be added
+                }
                 currentSquare.removeChild(currentSquare.firstElementChild);
                 element.appendChild(piece.element);
                 if(!piece.moved) piece.moved = true;
                 squareUncheck(currentSquare);
-                if(moveColor == 'white') moveColor = 'black';
-                else moveColor = 'white';
+                let king;
+                if(moveColor == 'white'){
+                    moveColor = 'black';
+                    king = kings.black;
+                    enpassant.white = [];
+                }
+                else{
+                    moveColor = 'white';
+                    king = kings.white;
+                    enpassant.black = [];
+                }
                 // showing border around checked king
                 if(ifCheck(kings.white, board, kings.white.row, kings.white.column)) kings.white.checked = true;
                 else kings.white.checked = false;
@@ -127,13 +183,29 @@ const onSquareClick = (element) => {
                 if(kings.black.checked) board[kings.black.row][kings.black.column].element.classList.add('checkedKing');
                 if(kings.white.checked) board[kings.white.row][kings.white.column].element.classList.add('checkedKing');
                 // ---
-                let king;
-                if(moveColor == 'white') king = kings.white;
-                else king = kings.black;
-                if(king.checked && checkIfCheckMate(king)) checkMateActions();
+                if(checkIfCheckMate(king)) checkMateActions(king.checked);
+
             }
         }
     }
+};
+
+const calculateEnPassant = (piece) => {
+    let tempEnpassant = [];
+    let moveRow;
+    if(piece.color == 'white') moveRow = piece.row + 1;
+    else moveRow = piece.row - 1;
+    if(piece.column > 0 && board[piece.row][piece.column - 1].piece && board[piece.row][piece.column - 1].piece.type == 'pawn' && board[piece.row][piece.column - 1].piece.color != piece.color){
+        tempEnpassant.push({pawn: board[piece.row][piece.column - 1].piece, target: piece, move: {row: moveRow, column: piece.column}});
+    }
+    if(piece.column < 7 && board[piece.row][piece.column + 1].piece && board[piece.row][piece.column + 1].piece.type == 'pawn' && board[piece.row][piece.column + 1].piece.color != piece.color){
+        tempEnpassant.push({pawn: board[piece.row][piece.column + 1].piece, target: piece, move: {row: moveRow, column: piece.column}});
+    }
+    if(piece.color == 'white') enpassant.black = tempEnpassant;
+    else enpassant.white = tempEnpassant;
+};
+const doEnPassant = () => {
+
 };
 
 const doCastle = (board, piece, flag) => {
@@ -156,12 +228,13 @@ const checkIfCheckMate = (king) => {
     });
     return ifMate;
 };
-const checkMateActions = () => {
+const checkMateActions = (checked) => {
     checkMateElement = document.createElement('div');
     checkMateElement.classList.add('checkMateBackground');
     checkMateTextElement = document.createElement('p');
     checkMateTextElement.classList.add('checkMateText');
-    checkMateTextElement.textContent = 'Check Mate';
+    if(checked) checkMateTextElement.textContent = 'Check Mate';
+    else checkMateTextElement.textContent = 'Stalemate';
     checkMateTextElement.style.margin = '0px';
     console.log(checkMateTextElement.clientWidth/2);    // to fix
     checkMateTextElement.style.marginLeft = `-${checkMateTextElement.clientWidth/2}px`;

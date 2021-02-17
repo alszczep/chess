@@ -156,7 +156,7 @@ const calculatePawn = (piece, board, king) => {
     if(board[row+flag][column].piece == null){
         moves.push({row: row+flag, column: column});
         if(!piece.moved && board[row + flag * 2][column].piece == null){
-                moves.push({row: row + flag * 2, column: column});
+            moves.push({row: row + flag * 2, column: column});
         }
     }if(column < 7 && board[row+flag][column + 1].piece != null && board[row+flag][column + 1].piece.color != piece.color){
         moves.push({row: row + flag, column: column + 1, piece: board[row + flag][column + 1].piece});
