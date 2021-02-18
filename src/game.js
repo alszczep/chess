@@ -1,7 +1,7 @@
 import {createBoard} from './board.js';
 import {createPieces} from './pieces.js';
 import {findPiece, calculateMoves, highlightMoves, unhighlightMoves, ifCheck} from './moves.js';
-
+import {showPromotionWindow} from './promotion.js';
 
 let board;
 let boardElement;
@@ -30,7 +30,7 @@ export const initGame = () => {
     kings = {white: board[7][4].piece, black: board[0][4].piece};
 };
 
-const resizeBoard = () => {  
+export const resizeBoard = () => {  
     let width = document.documentElement.clientWidth;
     let height = document.documentElement.clientHeight;
     if(width >= height){
@@ -143,6 +143,7 @@ const onSquareClick = (element) => {
                                     board[item.target.row][item.target.column].piece = null;
                                 }
                             });
+                        if(piece.row == 0) showPromotionWindow(piece, boardElement, pieces, board);
                     }else{
                         if(enpassant.black.length > 0)
                             enpassant.black.forEach((item) => {
@@ -153,12 +154,9 @@ const onSquareClick = (element) => {
                                     board[item.target.row][item.target.column].piece = null;
                                 }
                             });
+                        if(piece.row == 7) showPromotionWindow(piece, boardElement, pieces, board);
                     }    
-                    if(piece.moved == false && (piece.row == 3 || piece.row == 4)){
-                        calculateEnPassant(piece);
-                    }
-
-                    // pawn promotion to be added
+                    if(piece.moved == false && (piece.row == 3 || piece.row == 4)) calculateEnPassant(piece);          
                 }
                 currentSquare.removeChild(currentSquare.firstElementChild);
                 element.appendChild(piece.element);

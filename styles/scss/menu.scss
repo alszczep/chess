@@ -1,4 +1,5 @@
 $bgColors: #ffffff;
+$promotionButtonColor: #e0e0e0;
 /* add modal to media screen */
 #startbutton, #howbutton{
     background-color: $bgColors;
@@ -70,6 +71,24 @@ $bgColors: #ffffff;
             }
         }
     }
+    div.promotionHeader{
+        font-weight: bold;
+    }
+    div.promotionBoxes{
+        div.promotionBox{
+            display: inline-block;
+            box-sizing: border-box;
+            background-color: $promotionButtonColor;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: 20%;
+            margin: (5%/2);
+            img.promotionImg{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
 }
 
 
@@ -101,6 +120,7 @@ $bgColors: #ffffff;
         }
     }
 }
+
 
 @media only screen and (max-width: 600px){
     #startbutton, #howbutton{
