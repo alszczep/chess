@@ -38,9 +38,8 @@ export const unhighlightMoves = (moves, board) => {
         });
     }
 };
-export const ifCheck = (king, board, row, column) => { // checks if king is already checked
-    //let tempPiece = {...king};
-    //board[king.row][king.column].piece = null;
+// checks if king is already checked
+export const ifCheck = (king, board, row, column) => { 
     let moves = calculateDiagonalMoves({row: row, column: column, color: king.color}, [], board);
     if(moves.filter((item) => {return item.piece != null && (item.piece.type == 'bishop' || item.piece.type == 'queen');}).length > 0){
         return true;
@@ -67,10 +66,10 @@ export const ifCheck = (king, board, row, column) => { // checks if king is alre
             }
         }
     }
-    //board[tempPiece.row][tempPiece.column].piece = {...tempPiece};
     return false;
 };
-const moveCheck = (moves, king, piece, board) => { // checks if move doesn't leave a king checked
+// checks if move doesn't leave a king checked
+const moveCheck = (moves, king, piece, board) => { 
     let legalMoves = moves.filter((move) => {
         let tempPiece = board[move.row][move.column].piece;
         board[move.row][move.column].piece = piece;
@@ -200,7 +199,6 @@ const calculateKnightVertical = (color, row, column, board, moves) => {
     }    
     return moves;
 };
-
 const calculateDiagonalMoves = (piece, moves, board) => {
     // northeast
     let row = piece.row - 1;

@@ -5,6 +5,7 @@ import {showPromotionWindow} from './promotion.js';
 
 let board;
 let boardElement;
+let pieceImageResolution;
 let pieces;
 let kings;
 let moveColor = 'white';
@@ -16,6 +17,7 @@ let checkMateElement;
 let checkMateTextElement;
 let enpassant = {white: [], black: []};
 
+// creates board and pieces, called on start button click
 export const initGame = () => { 
     document.body.style.display = 'flex';
     boardElement = document.createElement('table');
@@ -24,12 +26,14 @@ export const initGame = () => {
     document.body.appendChild(boardElement);
     resizeBoard();
     window.addEventListener('resize', resizeBoard);
-    [pieces, board] = createPieces(board);
+    pieceImageResolution = calculatePieceImageResolution();
+    [pieces, board] = createPieces(board, pieceImageResolution);
     board[7][4].piece.checked = false;
     board[0][4].piece.checked = false;
     kings = {white: board[7][4].piece, black: board[0][4].piece};
 };
 
+// scaling functions for board and pieces
 export const resizeBoard = () => {  
     let width = document.documentElement.clientWidth;
     let height = document.documentElement.clientHeight;
@@ -47,12 +51,36 @@ export const resizeBoard = () => {
         boardElement.style.width = '100%';
         boardElement.style.height = `${boardElement.clientWidth}px`;
     }
+    if(pieces){
+        let tempResolution = calculatePieceImageResolution();
+        if(tempResolution != pieceImageResolution){
+            pieceImageResolution = tempResolution;
+            updatePieceImageResolution(pieceImageResolution); 
+        }
+    }
+};
+const calculatePieceImageResolution = () => {
+    let width = document.documentElement.clientWidth;
+    let height = document.documentElement.clientHeight;
+    let size = width < height ? width : height;
+    if(size >= 1200) return 'large';
+    if(size >= 500) return 'medium';
+    return 'small';
+};
+const updatePieceImageResolution = (tempResolution) => {
+    pieces = pieces.map((piece) => {
+        if(piece){
+            piece.element.src = `./../img/pieces/${tempResolution}/${piece.color}/${piece.type}.png`;
+            board[piece.row][piece.column].piece = piece;
+            return piece;
+        }
+    });
 };
 
+// handles piece selecting and movement
 export const createSquareListener = (element) => {
     element.addEventListener('click', onSquareClick(element));
 };
-
 const onSquareClick = (element) => {
     return (event) => {
         if(event.target.localName == 'div') return ;
@@ -143,7 +171,6 @@ const onSquareClick = (element) => {
                                     board[item.target.row][item.target.column].piece = null;
                                 }
                             });
-                        if(piece.row == 0) showPromotionWindow(piece, boardElement, pieces, board);
                     }else{
                         if(enpassant.black.length > 0)
                             enpassant.black.forEach((item) => {
@@ -153,9 +180,9 @@ const onSquareClick = (element) => {
                                     pieces[oldPieceIndex] = null;
                                     board[item.target.row][item.target.column].piece = null;
                                 }
-                            });
-                        if(piece.row == 7) showPromotionWindow(piece, boardElement, pieces, board);
+                            });                      
                     }    
+                    if(piece.row == 0 || piece.row == 7) showPromotionWindow(piece, boardElement, pieces, board, pieceImageResolution);
                     if(piece.moved == false && (piece.row == 3 || piece.row == 4)) calculateEnPassant(piece);          
                 }
                 currentSquare.removeChild(currentSquare.firstElementChild);
@@ -188,6 +215,7 @@ const onSquareClick = (element) => {
     }
 };
 
+// movement functions
 const calculateEnPassant = (piece) => {
     let tempEnpassant = [];
     let moveRow;
@@ -202,10 +230,6 @@ const calculateEnPassant = (piece) => {
     if(piece.color == 'white') enpassant.black = tempEnpassant;
     else enpassant.white = tempEnpassant;
 };
-const doEnPassant = () => {
-
-};
-
 const doCastle = (board, piece, flag) => {
     board[piece.row][piece.column + flag].piece = board[piece.row][piece.column - flag].piece;
     board[piece.row][piece.column - flag].piece = null;
@@ -215,6 +239,7 @@ const doCastle = (board, piece, flag) => {
     else board[piece.row][piece.column + flag].piece.column = 5;
 };
 
+// check mate functions
 const checkIfCheckMate = (king) => {
     let moves = [];
     let ifMate = true;
@@ -242,6 +267,7 @@ const checkMateActions = (checked) => {
     console.log('check mate');
 };
 
+// move history functions
 const removeLastMove = (moveHistory, board) => {
     let row = moveHistory[moveHistory.length - 2].from.row;
     let column = moveHistory[moveHistory.length - 2].from.column;
@@ -258,6 +284,7 @@ const addLastMove = (moveHistory, board) => {
     column = moveHistory[moveHistory.length - 1].to.column;
     board[row][column].element.classList.add('lastMove');
 };
+
 const squareUncheck = (element) => {
     element.classList.remove('selectedSquare');
     element.classList.remove('highlighted');
