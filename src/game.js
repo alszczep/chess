@@ -2,6 +2,7 @@ import {createBoard} from './board.js';
 import {createPieces} from './pieces.js';
 import {findPiece, calculateMoves, highlightMoves, unhighlightMoves, ifCheck} from './moves.js';
 import {showPromotionWindow} from './promotion.js';
+import {showSettingsModal} from './settings.js'
 
 let board;
 let boardElement;
@@ -22,7 +23,7 @@ export const initGame = () => {
     document.body.style.display = 'flex';
     boardElement = document.createElement('table');
     boardElement.id = 'board';
-    board = createBoard(boardElement);
+    board = createBoard(boardElement, moveHistory);
     document.body.appendChild(boardElement);
     resizeBoard();
     window.addEventListener('resize', resizeBoard);
@@ -254,6 +255,7 @@ const checkIfCheckMate = (king) => {
 const checkMateActions = (checked) => {
     checkMateElement = document.createElement('div');
     checkMateElement.classList.add('checkMateBackground');
+    checkMateElement.addEventListener('click', showSettingsModal(boardElement));
     checkMateTextElement = document.createElement('p');
     checkMateTextElement.classList.add('checkMateText');
     if(checked) checkMateTextElement.textContent = 'Check Mate';
@@ -264,7 +266,6 @@ const checkMateActions = (checked) => {
     checkMateTextElement.style.marginTop = `-${checkMateTextElement.clientHeight/2}px`;
     checkMateElement.appendChild(checkMateTextElement);
     document.body.appendChild(checkMateElement);
-    console.log('check mate');
 };
 
 // move history functions

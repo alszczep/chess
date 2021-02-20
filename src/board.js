@@ -1,8 +1,8 @@
 import {createSettingsButton} from './settings.js';
 import {createSquareListener} from './game.js'
-const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+export const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
-export const createBoard = (boardElement) => {
+export const createBoard = (boardElement, moveHistory) => {
     let board = [];
     let colorWhite = true;
     let squareChecked = false;
@@ -37,7 +37,7 @@ export const createBoard = (boardElement) => {
             boardElement.appendChild(createNotationRow());
         }
     }
-    createSettingsButton(boardElement);
+    createSettingsButton(boardElement, moveHistory);
     return board;
 };
 
